@@ -2,9 +2,11 @@
 // "use client" tells Next.js to send this component's JavaScript to the browser.
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+// next/image: Next.js image component that resizes and lazy-loads images automatically.
+import Image from "next/image";
 // "@/" is a shortcut for the "src/" folder (configured in tsconfig.json).
-import { aboutItems, type AboutItem, type HighlightInfo } from "@/content/about";
+import { aboutItems, type AboutItem, type Highlight, type HighlightInfo } from "@/content/about";
 
 export default function AboutList() {
   // Which line is currently open. null = all lines closed.
@@ -46,25 +48,39 @@ export default function AboutList() {
   );
 }
 
-// Renders the revealed text. If the item has a place, that word becomes a tooltip trigger.
+// Renders the revealed text, turning each highlighted word into a tooltip trigger.
 function DetailText({ item }: { item: AboutItem }) {
-  // No place defined: just show plain text
-  if (!item.highlight) return <p>{item.text}</p>;
+  // `?? []` = use an empty list when the item has no highlights
+  return <p>{withHighlights(item.text, item.highlights ?? [])}</p>;
+}
 
-  // Split the sentence around the place name:
-  // "Tôi đến từ Quang Ngai city, Vietnam." -> ["Tôi đến từ ", ", Vietnam."]
-  const [before, after] = item.text.split(item.highlight.match);
-  return (
-    <p>
-      {before}
-      <PlaceTooltip label={item.highlight.match} place={item.highlight.info} />
-      {after}
-    </p>
-  );
+// Turns a sentence into a mix of plain text and tooltip words.
+// Example: "I enjoy playing video games and making music."
+//   -> ["I enjoy playing ", <video games tooltip>, " and making ", <music tooltip>, "."]
+function withHighlights(text: string, highlights: Highlight[]): ReactNode[] {
+  // Start with the whole sentence as one piece of plain text
+  let parts: ReactNode[] = [text];
+
+  // For each highlight, split every remaining plain-text piece around its word
+  for (const h of highlights) {
+    parts = parts.flatMap((part) => {
+      // Already a tooltip element: keep it as is
+      if (typeof part !== "string") return [part];
+
+      const pieces = part.split(h.match);
+      // Re-join the pieces, putting a tooltip where each match was
+      return pieces.flatMap((piece, i) =>
+        i === 0
+          ? [piece]
+          : [<InfoTooltip key={`${h.match}-${i}`} label={h.match} info={h.info} />, piece]
+      );
+    });
+  }
+  return parts;
 }
 
 // A word that shows extra info on hover (desktop) or tap (mobile).
-function PlaceTooltip({ label, place }: { label: string; place: HighlightInfo }) {
+function InfoTooltip({ label, info }: { label: string; info: HighlightInfo }) {
   // Two separate states:
   // - hovered: mouse is over the word (desktop only)
   // - pinned:  user clicked/tapped to keep it open
@@ -91,16 +107,31 @@ function PlaceTooltip({ label, place }: { label: string; place: HighlightInfo })
       </button>
 
       {show && (
+        // Only span and image elements in here, because this sits inside a <p>
+        // (a <div> inside a <p> is invalid HTML and React will warn about it)
         <span
           role="tooltip"
           // "absolute top-full" places the box right under the word.
           // "max-w-[80vw]" stops it from overflowing narrow phone screens.
           className="absolute left-0 top-full z-10 mt-2 block w-64 max-w-[80vw] rounded-lg border border-neutral-700 bg-neutral-900 p-4 text-sm text-neutral-300 shadow-lg"
         >
-          <span className="mb-2 block font-semibold text-white">{place.name}</span>
-          {/* One line per fact, e.g. "Vùng: Duyên hải miền Trung" */}
-          {place.facts.map((f) => (
-            <span key={f.label} className="block">
+          {/* Title on top */}
+          <span className="block font-semibold text-white">{info.name}</span>
+
+          {/* Image below the title, only if this highlight has one */}
+          {info.image && (
+            <Image
+              src={info.image.src}
+              alt={info.image.alt}
+              width={240}
+              height={160}
+              className="mt-3 h-auto w-full rounded-md object-cover"
+            />
+          )}
+
+          {/* One line per fact, e.g. "Location: Central Coast". `?.` skips this if there are no facts */}
+          {info.facts?.map((f) => (
+            <span key={f.label} className="mt-1 block">
               <span className="text-neutral-500">{f.label}:</span> {f.value}
             </span>
           ))}

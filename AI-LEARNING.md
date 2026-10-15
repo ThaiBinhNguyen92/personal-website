@@ -45,6 +45,11 @@
 - A popup is positioned with `relative` on the parent and `absolute top-full` on the popup, so it sits right under the word instead of pushing other content down.
 - Because the UI reads from the `aboutItems` array, adding a new line (Career) only needed new data, no component changes.
 - Refactoring = renaming or restructuring code to make it clearer without changing what it does. In VS Code, F2 renames a variable everywhere it is used.
+- Files in `public/` are served from the site root: `public/images/mario.jpg` becomes `/images/mario.jpg`.
+- `next/image` resizes and lazy-loads images; it needs `width` and `height` so the page doesn't jump while loading.
+- To support several tooltip words in one sentence, I changed `highlight` (one object) to `highlights` (an array) and split the text piece by piece with `flatMap`.
+- A div cannot go inside a paragraph tag in HTML, so the tooltip only uses span elements and the image.
+- `?.` (optional chaining) and `??` (default value) handle fields that may be missing, like `facts` or `highlights`.
 
 ## For the final review
 - An AI suggestion I rejected (and why):

@@ -16,6 +16,8 @@ Live site: YOUR-VERCEL-LINK
 - [x] Interactive "About me" list: click a line to reveal details
 - [x] Place tooltip: hover (desktop) or tap (mobile) a place name to see facts about it
 - [x] Career line with a university tooltip (data-driven: added by editing `about.ts` only)
+- [x] Info tooltips: hover (desktop) or tap (mobile) a highlighted word to see facts or an image
+- [x] Hobbies line with images (Nintendo Switch, Guitar)
 - [ ] Interactive travel map
 - [ ] Projects from GitHub
 
