@@ -43,6 +43,8 @@
 - Phones have no hover, so the place tooltip opens on hover for a mouse and on tap for touch.
 - Conditional rendering (`{isOpen && <div>...</div>}`) means the element only exists in the page when the condition is true. This is how the detail and the tooltip appear and disappear.
 - A popup is positioned with `relative` on the parent and `absolute top-full` on the popup, so it sits right under the word instead of pushing other content down.
+- Because the UI reads from the `aboutItems` array, adding a new line (Career) only needed new data, no component changes.
+- Refactoring = renaming or restructuring code to make it clearer without changing what it does. In VS Code, F2 renames a variable everywhere it is used.
 
 ## For the final review
 - An AI suggestion I rejected (and why):

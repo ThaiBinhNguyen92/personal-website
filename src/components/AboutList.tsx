@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 // "@/" is a shortcut for the "src/" folder (configured in tsconfig.json).
-import { aboutItems, type AboutItem, type PlaceInfo } from "@/content/about";
+import { aboutItems, type AboutItem, type HighlightInfo } from "@/content/about";
 
 export default function AboutList() {
   // Which line is currently open. null = all lines closed.
@@ -49,22 +49,22 @@ export default function AboutList() {
 // Renders the revealed text. If the item has a place, that word becomes a tooltip trigger.
 function DetailText({ item }: { item: AboutItem }) {
   // No place defined: just show plain text
-  if (!item.place) return <p>{item.text}</p>;
+  if (!item.highlight) return <p>{item.text}</p>;
 
   // Split the sentence around the place name:
   // "Tôi đến từ Quang Ngai city, Vietnam." -> ["Tôi đến từ ", ", Vietnam."]
-  const [before, after] = item.text.split(item.place.match);
+  const [before, after] = item.text.split(item.highlight.match);
   return (
     <p>
       {before}
-      <PlaceTooltip label={item.place.match} place={item.place.info} />
+      <PlaceTooltip label={item.highlight.match} place={item.highlight.info} />
       {after}
     </p>
   );
 }
 
 // A word that shows extra info on hover (desktop) or tap (mobile).
-function PlaceTooltip({ label, place }: { label: string; place: PlaceInfo }) {
+function PlaceTooltip({ label, place }: { label: string; place: HighlightInfo }) {
   // Two separate states:
   // - hovered: mouse is over the word (desktop only)
   // - pinned:  user clicked/tapped to keep it open
