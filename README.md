@@ -3,7 +3,7 @@
 A personal website about who I am, where I've been, and what I'm learning.
 Built as a Range Lab intern project.
 
-Live site: https://personal-website-sigma-seven-50.vercel.app/
+Live site: YOUR-VERCEL-LINK
 
 ## Tech stack
 - Next.js (App Router) + TypeScript
@@ -13,9 +13,18 @@ Live site: https://personal-website-sigma-seven-50.vercel.app/
 
 ## Features
 - [x] Home page with name and three sections
-- [ ] About me
+- [x] Interactive "About me" list: click a line to reveal details
+- [x] Place tooltip: hover (desktop) or tap (mobile) a place name to see facts about it
 - [ ] Interactive travel map
 - [ ] Projects from GitHub
+
+## Project structure
+```
+src/
+  app/          # Routes: pages and layout
+  components/   # Reusable UI components (e.g. AboutList)
+  content/      # Site content as typed data (e.g. about.ts)
+```
 
 ## Run locally
 ```bash
