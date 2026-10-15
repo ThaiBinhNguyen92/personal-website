@@ -80,4 +80,16 @@ export const aboutItems: AboutItem[] = [
       },
     ],
   },
+    {
+    // Line 4: what I'm learning now. Plain text only, so no `highlights` field.
+    id: "learning",
+    title: "Learning now",
+    text: "I'm building this personal website as my intern project at Range Lab, learning Next.js, TypeScript, Tailwind CSS, and how to deploy with Vercel along the way.",
+  },
+  {
+    // Line 5: one thing that wouldn't go on a résumé (required by the project brief).
+    id: "not-on-cv",
+    title: "Not on my CV",
+    text: "Fun fact: I'm also a Medical Laboratory Scientist, and I'm preparing for the MLS (ASCP) certification exam in February 2027.",
+  },
 ];
