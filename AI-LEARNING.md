@@ -12,3 +12,11 @@
 ## Next.js
 
 I learned that Next.js is the main framework used to organize and run this project. I now understand the purpose of the main project files and folders, including `page.tsx`, `layout.tsx`, `globals.css`, `package.json`, `tsconfig.json`, `next.config.ts`, `public`, and `node_modules`. I also learned how App Router works, how pages and layouts are structured, how Tailwind CSS is connected to the project, and how to run the application locally using `npm run dev`.
+
+## Vercel
+
+- Vercel is a hosting platform made by the creators of Next.js.
+- I imported my GitHub repo into Vercel and it detected Next.js automatically, so no extra build settings were needed.
+- Vercel only deploys code that is pushed to GitHub, not uncommitted changes on my machine.
+- Every push to `main` triggers a new production deployment automatically.
+- Production = the public site built from `main`. Preview = a separate URL for each branch or pull request, so changes can be tested before merging.
